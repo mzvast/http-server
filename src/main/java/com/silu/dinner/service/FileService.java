@@ -2,6 +2,7 @@ package com.silu.dinner.service;
 
 import com.silu.dinner.exception.ServerException;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 
 /**
@@ -9,4 +10,6 @@ import java.io.InputStream;
  */
 public interface FileService {
     String storeFile(InputStream inputStream,String fileName,long size) throws ServerException;
+
+    void getfile(HttpServletResponse res, String fileId,Long range) throws ServerException;
 }

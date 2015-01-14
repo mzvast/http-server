@@ -3,14 +3,17 @@ package com.silu.dinner.service;
 import com.silu.dinner.constant.StatusCode;
 import com.silu.dinner.exception.ServerException;
 import com.silu.dinner.file.FileInfo;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.nio.channels.Channels;
+import java.nio.channels.WritableByteChannel;
 import java.util.UUID;
 
 /**
@@ -19,8 +22,8 @@ import java.util.UUID;
 @Service
 public class LocalStoreFileService implements FileService {
     private static Logger LOGGER = LoggerFactory.getLogger(LocalStoreFileService.class);
-    
-    @Value("${file.store.path}")
+
+    @Value("#{configproperties['file.store.path']}")
     private String fileDir;
     @Override
     public String storeFile(InputStream inputStream, String fileName, long size) throws ServerException {
@@ -39,6 +42,46 @@ public class LocalStoreFileService implements FileService {
         return fileInfo.getAccessKey();
     }
 
+    @Override
+    public void getfile(HttpServletResponse res, String fileId, Long range) throws ServerException {
+        FileInputStream input = null;
+        ServletOutputStream os = null;
+        File file = new File(fileDir + File.separator+ fileId);
+        if(file != null){
+            try {
+                readFile(res, file, input, os, range);
+            } catch (Exception e) {
+                LOGGER.warn("fails to read file.file:{}",fileId,e);
+                new ServerException(StatusCode.FILE_FAIL_TO_FIIND,"fails to find the file.");
+            }
+        }
+    }
+
+    private void readFile(HttpServletResponse res, File obsertFile, FileInputStream input, ServletOutputStream os, Long range) throws Exception {
+        long len = obsertFile.length() - range;
+        os = res.getOutputStream();
+        res.reset();
+        res.setHeader("Content-Disposition", "attachment; filename="
+                + obsertFile.getName());
+        res.setContentType("application/octet-stream; charset=UTF-8");
+        res.setHeader("Content-Length", String.valueOf(len));
+
+        transferTo(obsertFile, range, len, Channels.newChannel(os));
+    }
+
+    private void transferTo(File file, long position, long count,
+                            WritableByteChannel target) throws IOException {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            fis.getChannel().transferTo(position, count, target);
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            IOUtils.closeQuietly(fis);
+        }
+    }
+    
     private FileInfo persitFile(InputStream inputStream, String fileName,
                                 String fileStorePath) throws Exception {
         FileOutputStream fou = null;
@@ -47,7 +90,7 @@ public class LocalStoreFileService implements FileService {
             int lastIndex = fileName.lastIndexOf(".") ;
             String ext =  lastIndex != -1 ? fileName.substring( lastIndex ) : fileName ;
             String randomStr = createPackage(fileStorePath); // 创建文件夹
-            File obsertFile = new File(fileStorePath + randomStr + File.separator + "default"+ext);// 保存文件
+            File obsertFile = new File(fileStorePath + File.separator+ randomStr);// 保存文件
             if(!obsertFile.exists()){
                 obsertFile.createNewFile();
             }

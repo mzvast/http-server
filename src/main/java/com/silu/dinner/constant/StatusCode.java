@@ -10,6 +10,8 @@ public interface StatusCode {
    String FILE_FAIL_TO_UPLOAD = "40101";
     
    String INNER_ERROR = "50000";
+    
+   String FILE_FAIL_TO_FIIND = "40102";
 
 
 }
