@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="dataSourceInterceptor" class="com.silu.dinner.database.DataSourceInterceptor"/>
+    <bean id="mysql001.dinner" name="mysql001.dinner"
+          class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:mysql://112.124.113.88:3306/dinner?useUnicode=true&amp;autoReconnect=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</value>
+        </property>
+        <property name="username">
+            <value>dinner</value>
+        </property>
+        <property name="password">
+            <value>dinner</value>
+        </property>
+
+        <property name="maxActive">
+            <value>10</value>
+        </property>
+
+        <property name="minIdle">
+            <value>10</value>
+        </property>
+
+        <property name="initialSize">
+            <value>10</value>
+        </property>
+
+    </bean>
+
+    <bean id="dataSource" name="dataSource" class="com.silu.dinner.database.DinnerDataSource">
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry key="mysql001.dinner" value-ref="mysql001.dinner"/>
+            </map>
+        </property>
+        <property name="defaultTargetDataSource" ref="mysql001.dinner"/>
+    </bean>
+
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="baseMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" abstract="true"
+          lazy-init="true">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.silu.dinner.database"/>
+    </bean>
+</beans>

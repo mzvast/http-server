@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silu.dinner.database.dao.UserDAO">
+
+    <insert id="create" parameterType="com.silu.dinner.bean.User">
+        INSERT INTO users ( user_id,account,mobile,nick_name,password,gender,portrait_file,signature,birthdate,token_id)
+        VALUES (#{user.userId}, #{user.account},#{user.mobile},#{user.nickName},#{user.password},#{user.gender},#{user.portraitFile},
+        #{user.signature},#{user.birthdate},#{user.tokenId} )
+    </insert>
+
+</mapper>

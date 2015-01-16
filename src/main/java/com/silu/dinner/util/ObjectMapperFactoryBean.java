@@ -5,10 +5,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.HashMap;
 
+@Service
 public class ObjectMapperFactoryBean implements FactoryBean<ObjectMapper> {
     private ObjectMapper objectMapper = null;
 

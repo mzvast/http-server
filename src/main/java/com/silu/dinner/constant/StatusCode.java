@@ -12,6 +12,9 @@ public interface StatusCode {
    String INNER_ERROR = "50000";
     
    String FILE_FAIL_TO_FIIND = "40102";
+    
+   String USER_REQ_PAR_ERROR = "40201";
 
+   String USER_CREATE_FAILED = "50201";
 
 }

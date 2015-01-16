@@ -68,6 +68,7 @@ public class FileController {
      * 根据MessageId获取文件内容
      *
      * @return
+     * TODO 待研究jetty的异步
      */
     @RequestMapping(value = "/file/download/{fileId}", method = RequestMethod.GET)
     public void fileContent(HttpServletRequest request, @PathVariable final String fileId) {

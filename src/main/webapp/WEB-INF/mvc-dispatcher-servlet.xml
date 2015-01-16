@@ -11,21 +11,6 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd"
         >
 
-    <bean id="configproperties"
-          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="locations">
-            <list>
-                <value>classpath:conf/main.properties</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" ref="configproperties"/>
-    </bean>
-
-    <context:component-scan base-package="com.silu"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>

@@ -2,10 +2,5 @@ target/
 /.idea
 .idea
 dinner.iml
-/cn.v5.iml
-/core-server.iml
-/.project
-/.classpath
-.settings
-./settings
-/bin/
+logs
+logs/*
