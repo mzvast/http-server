@@ -15,6 +15,10 @@ public interface StatusCode {
     
    String USER_REQ_PAR_ERROR = "40201";
 
+    String USER_NO_EXIST = "40203";
+
    String USER_CREATE_FAILED = "50201";
+
+   String USER_QUERY_FAILED = "50202";
 
 }

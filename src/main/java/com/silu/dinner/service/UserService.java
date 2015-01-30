@@ -37,6 +37,18 @@ public class UserService{
         return user;
     }
 
+    public User getUser(String userId) throws ServerException{
+        User user = null;
+        try {
+            user = userDAO.get(userId);
+        }catch (Exception e){
+            LOGGER.warn("fails to create user",e);
+            throw new ServerException(StatusCode.USER_QUERY_FAILED,"fails to query user");
+        }
+        return user;
+    }
+
+
 
 
 }

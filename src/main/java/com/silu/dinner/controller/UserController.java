@@ -52,4 +52,24 @@ public class UserController {
         resp.setBody(value);
         return resp;
     }
+
+    @RequestMapping(value = "/user/get",method = RequestMethod.GET)
+    @ResponseBody
+    public HttpResp get(HttpServletRequest request, @NotNull @NotEmpty String user_id){
+        User user = null;
+        try {
+            user = userService.getUser(user_id);
+        }catch (ServerException e){
+            LOGGER.warn("fails to crete user.",e);
+            throw e;
+        }
+        
+        if(null == user){
+            throw new ServerException(StatusCode.USER_NO_EXIST,"use does not exist.");
+        }
+        
+        HttpResp resp = HttpResp.newSuccessResp();
+        resp.setBody(user);
+        return resp;
+    }
 }
