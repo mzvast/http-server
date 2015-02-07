@@ -46,7 +46,10 @@ public class LocalStoreFileService implements FileService {
     public void getfile(HttpServletResponse res, String fileId, Long range) throws ServerException {
         FileInputStream input = null;
         ServletOutputStream os = null;
-        File file = new File(fileDir + File.separator+ fileId);
+        String filePath = getFilePackage(fileDir,fileId) + File.separator+ fileId;
+        
+        LOGGER.debug("get file. filePath:{}",filePath);
+        File file = new File(filePath);
         if(file != null){
             try {
                 readFile(res, file, input, os, range);
@@ -90,7 +93,7 @@ public class LocalStoreFileService implements FileService {
             int lastIndex = fileName.lastIndexOf(".") ;
             String ext =  lastIndex != -1 ? fileName.substring( lastIndex ) : fileName ;
             String randomStr = createPackage(fileStorePath); // 创建文件夹
-            File obsertFile = new File(fileStorePath + File.separator+ randomStr);// 保存文件
+            File obsertFile = new File(getFilePackage(fileStorePath,randomStr) + File.separator+ randomStr);// 保存文件
             if(!obsertFile.exists()){
                 obsertFile.createNewFile();
             }
@@ -135,8 +138,15 @@ public class LocalStoreFileService implements FileService {
 
     private String createPackage(String fileStorePath) {
         String randomStr = UUID.randomUUID().toString();
-        File packageFile = new File(fileStorePath + randomStr);
-        packageFile.mkdir();
+        //暂时支持yi级目录 应该可以满足短时期内文件数目的需求
+        File packageFile = new File(getFilePackage(fileStorePath,randomStr));
+        if(!packageFile.exists()){
+            packageFile.mkdir();
+        }
         return randomStr;
+    }
+    
+    private String getFilePackage(String fileStorePath,String fileRandomNum){
+        return fileStorePath + File.pathSeparator+ fileRandomNum.substring(0,4);
     }
 }
