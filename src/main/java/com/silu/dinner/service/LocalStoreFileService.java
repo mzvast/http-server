@@ -63,7 +63,7 @@ public class LocalStoreFileService implements FileService {
     private void readFile(HttpServletResponse res, File obsertFile, FileInputStream input, ServletOutputStream os, Long range) throws Exception {
         long len = obsertFile.length() - range;
         os = res.getOutputStream();
-        res.reset();
+
         res.setHeader("Content-Disposition", "attachment; filename="
                 + obsertFile.getName());
         res.setContentType("application/octet-stream; charset=UTF-8");
