@@ -1,16 +1,16 @@
 package com.silu.dinner.controller;
 
+import com.silu.dinner.bean.HttpResp;
 import com.silu.dinner.constant.StatusCode;
 import com.silu.dinner.constant.StatusDesc;
-import com.silu.dinner.bean.HttpResp;
 import com.silu.dinner.exception.ServerException;
 import com.silu.dinner.service.FileService;
-import com.sun.istack.internal.NotNull;
+//import com.sun.istack.internal.NotNull;
+import net.sf.oval.constraint.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
