@@ -147,6 +147,6 @@ public class LocalStoreFileService implements FileService {
     }
     
     private String getFilePackage(String fileStorePath,String fileRandomNum){
-        return fileStorePath + File.pathSeparator+ fileRandomNum.substring(0,4);
+        return fileStorePath + File.separator+ fileRandomNum.substring(0,4);
     }
 }
