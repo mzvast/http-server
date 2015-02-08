@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.silu.dinner.database.dao.LocationDAO">
+    <resultMap id="locationMap" type="com.silu.dinner.bean.Location">
+        <result column="dimension" property="dimension"/>
+        <result column="longitude" property="longitude"/>
+        <result column="last_update_time" property="lastUpdateTime"/>
+        
+    </resultMap>
+    
+    <insert id="create" parameterType="com.silu.dinner.bean.Location">
+        INSERT INTO user_location (user_id,longitude,dimension,last_update_time)
+        VALUES (#{userId},#{location.longitude}, #{location.dimension},current_timestamp())
+    </insert>
+
+    <select id="get" resultMap="locationMap">
+        SELECT longitude,dimension,last_update_time FROM user_location WHERE
+        user_id = #{userId}
+    </select>
+
+    <update id="update">
+        UPDATE user_location SET last_update_time = current_timestamp() , dimension =
+        #{dimension},longitude=#{longitude}
+        WHERE user_id = #{userId}
+    </update>
+</mapper>

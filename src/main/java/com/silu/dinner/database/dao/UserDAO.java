@@ -15,4 +15,6 @@ public interface UserDAO {
 
     public int delete(@Param("userId") String id);
 
+    public User authorize(@Param("sessionId") String sessionId);
+
 }

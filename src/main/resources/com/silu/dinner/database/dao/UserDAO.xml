@@ -26,4 +26,9 @@
         user_id = #{userId}
     </select>
 
+    <select id="authorize" resultMap="userMap">
+        SELECT user_id,account,mobile,nick_name,gender,portrait_file,signature,birthdate,token_id FROM users WHERE
+        token_id = #{sessionId}
+    </select>
+    
 </mapper>

@@ -40,9 +40,19 @@
     </mvc:annotation-driven>
     <mvc:default-servlet-handler/>
 
+    <mvc:interceptors>
+        <bean class="com.silu.dinner.interceptor.LogInterceptor">
+            <property name="excludes"
+                      value="/*.html,/static/**"/>
+        </bean>
+        <bean class="com.silu.dinner.interceptor.SecInterceptor">
+            <property name="excludes"
+                      value="/dinner/user/add,/dinner/user/login,/dinner/file/upload,/dinner/file/download/**"/>
+        </bean>
+    </mvc:interceptors>
+
     <bean id="exceptionResolver" class="com.silu.dinner.service.ServerExceptionResolver">
     </bean>
-
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
 

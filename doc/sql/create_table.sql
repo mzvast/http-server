@@ -18,3 +18,11 @@ CREATE TABLE `users` (
   `token_id` varchar(255),
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE `user_location` (
+  `user_id` varchar(255)  NOT NULL,
+  `longitude` double(10,6)  NOT NULL,
+  `dimension` double(10,6) NOT NULL,
+  `last_update_time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+   PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
