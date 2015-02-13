@@ -17,4 +17,8 @@ public interface UserDAO {
 
     public User authorize(@Param("sessionId") String sessionId);
 
+    public int update(@Param("user") User user);
+
+    public User getByAccount(@Param("account") String account);
+
 }

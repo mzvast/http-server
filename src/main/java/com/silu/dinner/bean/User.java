@@ -14,7 +14,7 @@ public class User {
     private String address;
     private String signature;
     private String birthdate;
-    private String  aliPayAccount;
+    private String aliPayAccount;
     private String moneyAccount;
     private String tokenId;
     

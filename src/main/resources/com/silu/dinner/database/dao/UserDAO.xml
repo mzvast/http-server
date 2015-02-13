@@ -14,7 +14,7 @@
         <result column="birthdate" property="birthdate"/>
         <result column="token_id" property="tokenId"/>
     </resultMap>
-    
+
     <insert id="create" parameterType="com.silu.dinner.bean.User">
         INSERT INTO users ( user_id,account,mobile,nick_name,password,gender,portrait_file,signature,birthdate,token_id)
         VALUES (#{user.userId}, #{user.account},#{user.mobile},#{user.nickName},#{user.password},#{user.gender},#{user.portraitFile},
@@ -26,9 +26,29 @@
         user_id = #{userId}
     </select>
 
+    <select id="getByAccount" resultMap="userMap">
+        SELECT user_id,account,mobile,nick_name,gender,portrait_file,signature,birthdate,token_id FROM users WHERE
+        account = #{account}
+    </select>
+
     <select id="authorize" resultMap="userMap">
         SELECT user_id,account,mobile,nick_name,gender,portrait_file,signature,birthdate,token_id FROM users WHERE
         token_id = #{sessionId}
     </select>
-    
+
+    <update id="update" parameterType="com.silu.dinner.bean.User">
+        UPDATE users
+        <set>
+            <if test="user.account != null">account=#{user.account},</if>
+            <if test="user.mobile != null">mobile=#{user.mobile},</if>
+            <if test="user.nickName != null">nick_name=#{user.nickName},</if>
+            <if test="user.gender != null">gender=#{user.gender}</if>
+            <if test="user.portraitFile != null">portrait_file=#{user.portraitFile}</if>
+            <if test="user.signature != null">signature=#{user.signature}</if>
+            <if test="user.birthdate != null">birthdate=#{user.birthdate}</if>
+            <if test="user.tokenId != null">token_id=#{user.tokenId}</if>
+        </set>
+        WHERE user_id = #{user.userId}
+    </update>
+
 </mapper>
