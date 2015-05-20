@@ -1,1 +1,1 @@
-spirng + jetty + mysql
+spring + jetty + mysql
